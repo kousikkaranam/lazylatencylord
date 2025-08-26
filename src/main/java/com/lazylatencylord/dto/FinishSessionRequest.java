@@ -1,4 +1,4 @@
 package com.lazylatencylord.dto;
 
-public record FinishSessionRequest(int totalChars, int errors) { }
+public record FinishSessionRequest(Long totalChars, Long errors) { }
 
