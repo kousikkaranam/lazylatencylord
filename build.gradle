@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.github.node-gradle.node' version '7.0.1'
 }
 
 group = 'com'
@@ -18,9 +19,6 @@ repositories {
     mavenCentral()
 }
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -34,4 +32,28 @@ dependencies {
 }
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+node {
+    download = true                   // uses a local Node, no system deps
+    version = '20.15.0'
+    nodeProjectDir = file("$projectDir/frontend")
+}
+
+/** ---- UI build for production JAR ---- */
+tasks.register('uiNpmInstall', com.github.gradle.node.npm.task.NpmInstallTask)
+
+tasks.register('uiBuild', com.github.gradle.node.npm.task.NpmTask) {
+    dependsOn 'uiNpmInstall'
+    args = ['run', 'build']
+}
+
+tasks.register('copyUiToStatic', Copy) {
+    dependsOn 'uiBuild'
+    from("$projectDir/frontend/dist")
+    into("$buildDir/resources/main/static")
+}
+
+processResources {
+    dependsOn 'copyUiToStatic'
 }
