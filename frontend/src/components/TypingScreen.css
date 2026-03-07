@@ -1,5 +1,8 @@
 .typing {
-  padding-top: 40px;
+  padding-top: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .typing__header {
@@ -7,6 +10,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 12px 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
 }
 
 .typing__header-left {
@@ -17,18 +25,20 @@
 
 .typing__topic {
   color: var(--accent);
-  font-size: 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .typing__sentence-count {
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
 
 .typing__adapting {
-  color: var(--accent);
-  font-size: 0.75rem;
+  color: var(--accent-secondary);
+  font-size: 0.72rem;
   font-style: italic;
+  animation: pulse 1.5s ease infinite;
 }
 
 .typing__header-right {
@@ -42,12 +52,13 @@
   border: none;
   color: var(--text-dim);
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-family: inherit;
+  transition: color var(--transition-fast);
 }
 
 .typing__end-btn:hover {
-  color: var(--text);
+  color: var(--incorrect);
 }
 
 .typing__gamification {
@@ -61,21 +72,28 @@
   text-align: center;
   padding: 40px;
   color: var(--accent);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
 }
 
 .typing__loading {
-  color: var(--accent);
-  font-size: 0.9rem;
+  color: var(--accent-secondary);
+  font-size: 0.85rem;
   margin-bottom: 16px;
+  animation: pulse 1s ease infinite;
 }
 
 .typing__hint {
   text-align: center;
   margin-top: 48px;
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  animation: blink 2s ease infinite;
 }
 
 .typing__hidden-input {

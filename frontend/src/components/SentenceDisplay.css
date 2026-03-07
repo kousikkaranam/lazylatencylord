@@ -1,11 +1,12 @@
 .sentence {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   line-height: 2;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   min-height: 120px;
   cursor: text;
   user-select: none;
   position: relative;
+  padding: 20px 0;
 }
 
 .sentence__char {
@@ -16,20 +17,24 @@
   position: absolute;
   left: -1px;
   top: 2px;
-  width: 2px;
+  width: 2.5px;
   height: 1.3em;
   background: var(--caret);
+  border-radius: 1px;
   animation: blink 1s step-end infinite;
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.6);
 }
 
 .sentence__char--correct {
   color: var(--correct);
+  transition: color 0.05s ease;
 }
 
 .sentence__char--incorrect {
   color: var(--incorrect);
   text-decoration: underline;
   text-decoration-color: var(--incorrect);
+  text-underline-offset: 4px;
 }
 
 .sentence__char--pending {

@@ -1,26 +1,31 @@
 .live-stats {
   display: flex;
-  gap: 32px;
-  margin-bottom: 24px;
+  gap: 28px;
+  margin-bottom: 28px;
   font-size: 1.4rem;
   align-items: baseline;
+  padding: 10px 0;
 }
 
 .live-stats__value {
   color: var(--accent);
+  font-weight: 700;
 }
 
 .live-stats__value--danger {
   color: var(--incorrect);
+  text-shadow: 0 0 12px rgba(248, 81, 73, 0.4);
 }
 
 .live-stats__unit {
   color: var(--text-dim);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   margin-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .live-stats__last {
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }

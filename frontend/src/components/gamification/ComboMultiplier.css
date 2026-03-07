@@ -1,5 +1,5 @@
 .combo {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text-dim);
   transition: all var(--transition-fast);
@@ -13,18 +13,18 @@
 
 .combo--x2 {
   color: var(--accent);
-  text-shadow: 0 0 6px rgba(226, 183, 20, 0.3);
+  text-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
 }
 
 .combo--x3 {
   color: var(--accent);
-  text-shadow: 0 0 10px rgba(226, 183, 20, 0.5);
+  text-shadow: 0 0 12px rgba(88, 166, 255, 0.5);
   transform: scale(1.1);
 }
 
 .combo--x5 {
   color: #fff;
-  text-shadow: 0 0 16px rgba(226, 183, 20, 0.7);
+  text-shadow: 0 0 18px rgba(88, 166, 255, 0.7);
   transform: scale(1.2);
   animation: comboFlash 0.8s ease infinite;
 }

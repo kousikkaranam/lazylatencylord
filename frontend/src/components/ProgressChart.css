@@ -1,13 +1,20 @@
 .chart {
-  margin: 24px auto 32px;
+  margin: 28px auto 36px;
   max-width: 500px;
+  padding: 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
 }
 
 .chart__title {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .chart__svg {
@@ -24,10 +31,12 @@
 
 .chart__line--wpm {
   stroke: var(--accent);
+  filter: drop-shadow(0 0 4px rgba(88, 166, 255, 0.3));
 }
 
 .chart__line--accuracy {
-  stroke: var(--diff-beginner);
+  stroke: var(--accent-secondary);
+  filter: drop-shadow(0 0 4px rgba(126, 231, 135, 0.3));
 }
 
 .chart__dot {
@@ -44,11 +53,11 @@
 }
 
 .chart__dot--accuracy {
-  fill: var(--diff-beginner);
+  fill: var(--accent-secondary);
 }
 
 .chart__grid-line {
-  stroke: var(--bg-secondary);
+  stroke: var(--glass-border);
   stroke-width: 1;
 }
 
@@ -62,8 +71,8 @@
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin-top: 8px;
-  font-size: 0.75rem;
+  margin-top: 12px;
+  font-size: 0.72rem;
 }
 
 .chart__legend-item {
@@ -81,8 +90,10 @@
 
 .chart__legend-dot--wpm {
   background: var(--accent);
+  box-shadow: 0 0 6px rgba(88, 166, 255, 0.4);
 }
 
 .chart__legend-dot--accuracy {
-  background: var(--diff-beginner);
+  background: var(--accent-secondary);
+  box-shadow: 0 0 6px rgba(126, 231, 135, 0.4);
 }

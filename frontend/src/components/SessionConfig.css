@@ -1,44 +1,59 @@
 .config {
   text-align: center;
-  padding-top: 60px;
+  padding-top: 80px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .config__topic {
-  color: var(--accent);
-  font-size: 1.4rem;
-  margin-bottom: 8px;
-  font-weight: 400;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .config__subtitle {
   color: var(--text-dim);
-  font-size: 0.85rem;
-  margin-bottom: 40px;
+  font-size: 0.8rem;
+  margin-bottom: 44px;
+  letter-spacing: 1px;
 }
 
 .config__section {
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+  padding: 20px 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
 }
 
 .config__label {
   color: var(--text-dim);
-  font-size: 0.8rem;
-  margin-bottom: 10px;
+  font-size: 0.72rem;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .config__options {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .config__actions {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 44px;
 }
 
 .config__actions .btn-primary {
-  padding: 12px 40px;
+  padding: 14px 48px;
+  font-size: 1rem;
 }

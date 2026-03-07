@@ -1,30 +1,45 @@
 .results {
   text-align: center;
   padding-top: 60px;
+  padding-bottom: 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .results__title {
-  color: var(--accent);
-  font-size: 1.6rem;
-  margin-bottom: 32px;
-  font-weight: 400;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Stat cards */
 .results__stats {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 16px;
   margin-bottom: 32px;
   flex-wrap: wrap;
 }
 
 .stat-card {
-  background: var(--bg-secondary);
-  border-radius: 12px;
-  padding: 20px 28px;
-  min-width: 120px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px 28px;
+  min-width: 130px;
+  backdrop-filter: blur(10px);
   animation: slideUp 0.4s ease both;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: rgba(88, 166, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .stat-card:nth-child(1) { animation-delay: 0s; }
@@ -33,23 +48,30 @@
 .stat-card:nth-child(4) { animation-delay: 0.3s; }
 
 .stat-card__value {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
+  font-weight: 800;
   color: var(--accent);
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .stat-card__label {
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .stat-card__best {
-  font-size: 0.65rem;
-  color: var(--combo-color);
-  font-weight: 600;
-  margin-top: 4px;
-  animation: pulse 0.6s ease;
+  font-size: 0.62rem;
+  font-weight: 700;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(126, 231, 135, 0.15));
+  color: var(--accent-secondary);
+  animation: pulse 0.8s ease;
 }
 
 /* Gamification summary */
@@ -57,22 +79,30 @@
   display: flex;
   justify-content: center;
   gap: 32px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  padding: 16px 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .results__gamification-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .results__gamification-value {
   color: var(--accent);
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 /* Sentence history */
@@ -85,10 +115,15 @@
 .results__history-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--bg-secondary);
-  font-size: 0.85rem;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 0.82rem;
   animation: fadeIn 0.3s ease both;
+  transition: background 0.2s ease;
+}
+
+.results__history-row:hover {
+  background: var(--glass-bg);
 }
 
 .results__history-row:nth-child(n) {
@@ -106,8 +141,9 @@
 /* Actions */
 .results__actions {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   justify-content: center;
+  margin-top: 40px;
 }
 
 /* Achievements earned */
@@ -115,20 +151,27 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 28px;
 }
 
 .results__achievement {
-  background: var(--bg-secondary);
-  border: 1px solid var(--toast-border);
-  border-radius: 8px;
-  padding: 6px 12px;
+  background: var(--glass-bg);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: 10px;
+  padding: 8px 14px;
   font-size: 0.75rem;
   color: var(--accent);
   animation: fadeIn 0.3s ease both;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.results__achievement:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.15);
 }
 
 .results__achievement-icon {
-  margin-right: 4px;
+  margin-right: 6px;
 }

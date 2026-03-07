@@ -1,18 +1,19 @@
 .xp-bar {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .xp-bar__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
-  font-size: 0.75rem;
+  margin-bottom: 6px;
+  font-size: 0.72rem;
 }
 
 .xp-bar__level {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .xp-bar__xp {
@@ -21,16 +22,18 @@
 
 .xp-bar__track {
   height: 6px;
-  background: var(--xp-bg);
+  background: var(--glass-bg);
   border-radius: 3px;
   overflow: hidden;
+  border: 1px solid var(--glass-border);
 }
 
 .xp-bar__fill {
   height: 100%;
-  background: var(--xp-fill);
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
   border-radius: 3px;
   transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
 }
 
 .xp-bar__fill--levelup {

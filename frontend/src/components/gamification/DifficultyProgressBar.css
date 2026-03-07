@@ -6,25 +6,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .diff-bar__badge {
-  font-size: 0.8rem;
-  padding: 2px 10px;
-  border-radius: 4px;
-  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 3px 12px;
+  border-radius: 6px;
+  font-weight: 700;
   transition: all var(--transition-medium);
+  backdrop-filter: blur(8px);
 }
 
 .diff-bar__score {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
 }
 
 .diff-bar__track {
   position: relative;
-  height: 8px;
+  height: 6px;
   border-radius: 4px;
   background: linear-gradient(
     to right,
@@ -39,12 +40,12 @@
     var(--diff-expert) 85%,
     var(--diff-expert) 100%
   );
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .diff-bar__marker {
   position: absolute;
-  top: -3px;
+  top: -4px;
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -52,4 +53,5 @@
   border: 2px solid var(--bg);
   transition: left 0.8s ease;
   transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
 }

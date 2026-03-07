@@ -1,8 +1,8 @@
 .streak {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.9rem;
+  gap: 5px;
+  font-size: 0.88rem;
   color: var(--text-dim);
   transition: color var(--transition-fast);
 }
@@ -18,9 +18,10 @@
 
 .streak__icon--milestone {
   animation: streakPulse 0.4s ease;
+  filter: drop-shadow(0 0 6px var(--streak-glow));
 }
 
 .streak__count {
-  font-weight: 600;
+  font-weight: 700;
   min-width: 24px;
 }
