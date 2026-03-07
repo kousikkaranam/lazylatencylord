@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: LazyLatencyLord
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:typingspeed;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  web:
+    resources:
+      add-mappings: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+# AI Provider: gemini or groq (with automatic fallback)
+ai:
+  provider: ${AI_PROVIDER:groq}
+  gemini:
+    model: gemini-2.0-flash-lite
+  groq:
+    model: llama-3.1-8b-instant
+
+google:
+  ai:
+    api:
+      key: ${GOOGLE_AI_API_KEY:DUMMY_KEY}
+
+groq:
+  api:
+    key: ${GROQ_API_KEY:DUMMY_KEY}
+
+news:
+  api:
+    key: ${NEWS_API_KEY:DUMMY_KEY}
