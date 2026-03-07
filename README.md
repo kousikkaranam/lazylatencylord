@@ -19,21 +19,26 @@
 - **News Mode** — Type real headlines fetched from NewsData API
 - **Async Sentence Queue** — Background pre-generation ensures zero wait between sentences
 - **AI Provider Switching** — Swap between Gemini and Groq on the fly with automatic fallback
+- **Redis Caching** — AI responses cached to reduce latency and API costs
+- **Rate Limiting** — Configurable per-minute request throttling per client
+- **Observability** — Prometheus metrics and Spring Actuator health/info endpoints
 
 ## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Java 21, Spring Boot 3.5.4, Spring Data JPA, WebSocket |
-| Frontend | React 18, TypeScript, Vite |
+| Backend | Java 21, Spring Boot 3.5.4, Spring Data JPA, Spring Data Redis |
+| Frontend | React 18, Vite |
 | AI | Google Gemini (`gemini-2.0-flash-lite`), Groq (`llama-3.1-8b-instant`) |
-| Database | H2 (in-memory) |
-| Build | Gradle |
+| Caching | Redis |
+| Database | H2 (dev), PostgreSQL (prod) |
+| Observability | Spring Actuator, Micrometer, Prometheus |
+| Build | Gradle, Node Gradle Plugin |
 
 ## How It Works
 
 ```
-Select Topic → AI generates sentences → You type → System analyzes performance → Difficulty adjusts → Next sentence generated
+Select Topic -> AI generates sentences -> You type -> System analyzes performance -> Difficulty adjusts -> Next sentence generated
 ```
 
 1. **Pick a topic** — choose what you want to type about
@@ -50,7 +55,8 @@ Select Topic → AI generates sentences → You type → System analyzes perform
 ### Prerequisites
 
 - Java 21 JDK
-- Node.js & npm
+- Node.js (auto-downloaded by Gradle if missing)
+- Redis (for caching)
 - API key for at least one AI provider (Gemini or Groq)
 
 ### Setup
@@ -62,13 +68,32 @@ Select Topic → AI generates sentences → You type → System analyzes perform
    cd lazylatencylord
    ```
 
-2. **Set environment variables**
+2. **Configure environment**
 
-   ```bash
-   export AI_PROVIDER=gemini          # or groq
-   export GOOGLE_AI_API_KEY=your_key  # if using Gemini
-   export GROQ_API_KEY=your_key       # if using Groq
-   export NEWS_API_KEY=your_key       # optional, for News topic
+   Create a `.env` file in the project root (supported via spring-dotenv):
+
+   ```env
+   AI_PROVIDER=groq                    # or gemini
+   GOOGLE_AI_API_KEY=your_key          # if using Gemini
+   GROQ_API_KEY=your_key               # if using Groq
+   NEWS_API_KEY=your_key               # optional, for News topic
+
+   # Database (defaults to H2 in-memory if not set)
+   DB_URL=jdbc:postgresql://localhost:5432/lazylatencylord
+   DB_DRIVER=org.postgresql.Driver
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_password
+
+   # Redis
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+
+   # Optional tuning
+   SESSION_TTL_MINUTES=30
+   QUEUE_TARGET_SIZE=8
+   QUEUE_REFILL_THRESHOLD=3
+   RATE_LIMIT_RPM=60
+   SERVER_PORT=8080
    ```
 
 3. **Build & Run**
@@ -77,7 +102,7 @@ Select Topic → AI generates sentences → You type → System analyzes perform
    ./gradlew bootRun
    ```
 
-   App runs at `http://localhost:8080`.
+   App runs at `http://localhost:8080`. The Gradle build automatically compiles the React frontend and bundles it into the JAR.
 
 4. **Development mode** (frontend hot reload)
 
@@ -93,16 +118,20 @@ Select Topic → AI generates sentences → You type → System analyzes perform
 
 ```
 src/main/java/com/lazylatencylord/
-├── ai/                  # AI providers (Gemini, Groq)
-├── config/              # CORS, WebSocket, SPA routing
+├── ai/                  # AI providers (Gemini, Groq) and DTOs
+├── config/              # CORS, Redis, async, rate limiting, web config
 ├── controller/          # REST endpoints
+├── domain/              # Domain objects (SessionState, DifficultyResult)
 ├── dto/                 # Request/response records
-├── service/             # Difficulty engine, topic service, AI completion
-└── session/             # JPA entity and repository
+├── event/               # Event-driven sentence completion handling
+├── exception/           # Custom exceptions and global error handler
+├── service/             # Difficulty engine, session manager, AI routing, caching, news
+├── session/             # JPA entity and repository
+└── dev/                 # Frontend dev server proxy
 
 frontend/src/
-├── App.tsx              # Typing UI, metrics, navigation
-├── index.css            # Dark theme styles
+├── HomePage.js          # Main typing UI
+├── App.css              # Styles
 └── main.jsx             # Entry point
 ```
 
@@ -118,6 +147,15 @@ frontend/src/
 | GET | `/api/typing/news` | Fetch news headlines |
 | GET | `/api/typing/provider` | Get current AI provider |
 | POST | `/api/typing/provider/{name}` | Switch AI provider |
+
+### Actuator Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `/actuator/health` | Application health check |
+| `/actuator/info` | Application info |
+| `/actuator/metrics` | Application metrics |
+| `/actuator/prometheus` | Prometheus scrape endpoint |
 
 ## License
 
