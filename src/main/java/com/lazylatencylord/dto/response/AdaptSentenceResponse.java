@@ -1,4 +1,4 @@
-package com.lazylatencylord.dto;
+package com.lazylatencylord.dto.response;
 
 public record AdaptSentenceResponse(
         String newRemaining,

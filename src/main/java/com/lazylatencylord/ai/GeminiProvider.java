@@ -2,6 +2,7 @@ package com.lazylatencylord.ai;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import com.lazylatencylord.exception.AiProviderException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,6 +23,11 @@ public class GeminiProvider implements AiProvider {
         if (text != null && !text.isBlank()) {
             return text.trim();
         }
-        throw new RuntimeException("Empty response from Gemini");
+        throw new AiProviderException("Empty response from Gemini");
+    }
+
+    @Override
+    public String name() {
+        return "gemini";
     }
 }

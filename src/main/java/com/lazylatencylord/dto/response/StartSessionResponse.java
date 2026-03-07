@@ -1,6 +1,6 @@
-package com.lazylatencylord.dto;
+package com.lazylatencylord.dto.response;
 
-public record TopicSessionResponse(
+public record StartSessionResponse(
         String sessionId,
         String topic,
         int difficulty,

@@ -1,66 +1,51 @@
 package com.lazylatencylord.service;
 
 import com.lazylatencylord.ai.AiProvider;
-import com.lazylatencylord.ai.GeminiProvider;
-import com.lazylatencylord.ai.GroqProvider;
-import jakarta.annotation.PostConstruct;
+import com.lazylatencylord.exception.AiProviderException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
-public class AiCompletionService {
+public class AiProviderRouter {
 
-    @Value("${google.ai.api.key:}")
-    private String geminiApiKey;
+    private final AiProvider geminiProvider;
+    private final AiProvider groqProvider;
+    private final AiCacheService cacheService;
+    private final AtomicReference<String> activeProvider;
 
-    @Value("${groq.api.key:}")
-    private String groqApiKey;
+    private static final String FALLBACK_SENTENCE =
+            "The quick brown fox jumps over the lazy dog near the river bank.";
 
-    @Value("${ai.provider:gemini}")
-    private String activeProvider;
-
-    @Value("${ai.gemini.model:gemini-2.0-flash-lite}")
-    private String geminiModel;
-
-    @Value("${ai.groq.model:llama-3.1-8b-instant}")
-    private String groqModel;
-
-    private AiProvider geminiProvider;
-    private AiProvider groqProvider;
-
-    @PostConstruct
-    private void init() {
-        if (!geminiApiKey.isBlank()) {
-            geminiProvider = new GeminiProvider(geminiApiKey, geminiModel);
-            log.info("Gemini provider initialized (model: {})", geminiModel);
-        }
-        if (!groqApiKey.isBlank()) {
-            groqProvider = new GroqProvider(groqApiKey, groqModel);
-            log.info("Groq provider initialized (model: {})", groqModel);
-        }
-        log.info("Active AI provider: {}", activeProvider);
-    }
-
-    public void switchProvider(String provider) {
-        if ("gemini".equalsIgnoreCase(provider) && geminiProvider != null) {
-            this.activeProvider = "gemini";
-        } else if ("groq".equalsIgnoreCase(provider) && groqProvider != null) {
-            this.activeProvider = "groq";
-        } else {
-            throw new IllegalArgumentException("Provider not available: " + provider);
-        }
-        log.info("Switched AI provider to: {}", activeProvider);
-    }
-
-    public String getActiveProvider() {
-        return activeProvider;
+    public AiProviderRouter(
+            @Nullable @Qualifier("geminiProvider") AiProvider geminiProvider,
+            @Nullable @Qualifier("groqProvider") AiProvider groqProvider,
+            AiCacheService cacheService,
+            @Value("${ai.provider:groq}") String defaultProvider) {
+        this.geminiProvider = geminiProvider;
+        this.groqProvider = groqProvider;
+        this.cacheService = cacheService;
+        this.activeProvider = new AtomicReference<>(defaultProvider);
+        log.info("AI provider router initialized (active: {}, gemini: {}, groq: {})",
+                defaultProvider,
+                geminiProvider != null ? "available" : "unavailable",
+                groqProvider != null ? "available" : "unavailable");
     }
 
     public String generateSentence(String topic, String difficulty) {
+        // Try cache first
+        String cached = cacheService.getCachedSentence(topic, difficulty);
+        if (cached != null) {
+            log.debug("Cache hit for {}:{}", topic, difficulty);
+            return cached;
+        }
+
         String prompt = """
                 Generate one sentence for typing practice.
 
@@ -78,7 +63,7 @@ public class AiCompletionService {
         return callAi(prompt);
     }
 
-    public List<String> generateSentenceBatch(String topic, String difficulty, int count) {
+    public List<String> generateBatch(String topic, String difficulty, int count) {
         String prompt = """
                 Generate %d sentences for typing practice. One sentence per line.
 
@@ -94,10 +79,17 @@ public class AiCompletionService {
                 """.formatted(count, topic, difficulty);
 
         String result = callAi(prompt);
-        return result.lines()
+        List<String> sentences = result.lines()
                 .map(String::trim)
                 .filter(line -> !line.isEmpty())
                 .toList();
+
+        // Cache surplus sentences for future use
+        if (sentences.size() > 1) {
+            cacheService.cacheSentences(topic, difficulty, sentences.subList(1, sentences.size()));
+        }
+
+        return sentences;
     }
 
     public String adaptRemaining(String topic, String typedSoFar, String remainingText, boolean makeEasier) {
@@ -121,21 +113,28 @@ public class AiCompletionService {
         return callAi(prompt);
     }
 
-    public List<String> generateCompletions(String partialText) {
-        String prompt = "Complete this sentence: " + partialText + ". Give one short completion.";
-        String result = callAi(prompt);
-        return List.of(result.trim());
+    public String getActiveProvider() {
+        return activeProvider.get();
+    }
+
+    public void switchProvider(String provider) {
+        AiProvider target = getProviderByName(provider);
+        if (target == null) {
+            throw new AiProviderException("Provider not available: " + provider);
+        }
+        activeProvider.set(provider.toLowerCase());
+        log.info("Switched AI provider to: {}", provider);
     }
 
     private String callAi(String prompt) {
-        AiProvider primary = getProvider(activeProvider);
-        AiProvider fallback = getFallback(activeProvider);
+        AiProvider primary = getProviderByName(activeProvider.get());
+        AiProvider fallback = getFallbackProvider();
 
         if (primary != null) {
             try {
                 return primary.generate(prompt);
             } catch (Exception e) {
-                log.warn("{} failed: {}. Trying fallback...", activeProvider, e.getMessage());
+                log.warn("{} failed: {}. Trying fallback...", activeProvider.get(), e.getMessage());
             }
         }
 
@@ -143,14 +142,15 @@ public class AiCompletionService {
             try {
                 return fallback.generate(prompt);
             } catch (Exception e) {
-                log.error("Fallback also failed: {}", e.getMessage());
+                log.error("Fallback provider also failed: {}", e.getMessage());
             }
         }
 
-        return "The quick brown fox jumps over the lazy dog near the river bank.";
+        log.error("All AI providers failed, returning fallback sentence");
+        return FALLBACK_SENTENCE;
     }
 
-    private AiProvider getProvider(String name) {
+    private AiProvider getProviderByName(String name) {
         return switch (name.toLowerCase()) {
             case "gemini" -> geminiProvider;
             case "groq" -> groqProvider;
@@ -158,8 +158,8 @@ public class AiCompletionService {
         };
     }
 
-    private AiProvider getFallback(String activeName) {
-        return switch (activeName.toLowerCase()) {
+    private AiProvider getFallbackProvider() {
+        return switch (activeProvider.get().toLowerCase()) {
             case "gemini" -> groqProvider;
             case "groq" -> geminiProvider;
             default -> null;

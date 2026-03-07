@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com'
-version = '0.1.0'
+version = '0.2.0'
 sourceCompatibility = '21'
 
 java {
@@ -21,14 +21,31 @@ repositories {
 
 
 dependencies {
+    // Core
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'com.h2database:h2'
-    implementation 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // AI
     implementation 'com.google.genai:google-genai:1.41.0'
 
+    // .env file support
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    // Database
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
+
+    // Observability
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 tasks.named('test') {

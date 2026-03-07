@@ -2,52 +2,68 @@ spring:
   application:
     name: LazyLatencyLord
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
+  # --- Database (default: H2 for dev, override with PostgreSQL in prod) ---
   datasource:
-    url: jdbc:h2:mem:typingspeed;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: postgres
-    password: postgres
+    url: ${DB_URL:jdbc:h2:mem:typingspeed;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: false
+    open-in-view: false
+
+  # --- Redis ---
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000
 
   web:
     resources:
       add-mappings: true
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
 
-# AI Provider: gemini or groq (with automatic fallback)
+# --- AI Provider Configuration ---
 ai:
   provider: ${AI_PROVIDER:groq}
   gemini:
-    model: gemini-2.0-flash-lite
+    model: ${AI_GEMINI_MODEL:gemini-2.0-flash-lite}
   groq:
-    model: llama-3.1-8b-instant
+    model: ${AI_GROQ_MODEL:llama-3.1-8b-instant}
 
 google:
   ai:
     api:
-      key: ${GOOGLE_AI_API_KEY:DUMMY_KEY}
+      key: ${GOOGLE_AI_API_KEY:}
 
 groq:
   api:
-    key: ${GROQ_API_KEY:DUMMY_KEY}
+    key: ${GROQ_API_KEY:}
 
 news:
   api:
-    key: ${NEWS_API_KEY:DUMMY_KEY}
+    key: ${NEWS_API_KEY:}
+
+# --- Session Configuration ---
+session:
+  ttl-minutes: ${SESSION_TTL_MINUTES:30}
+  queue:
+    target-size: ${QUEUE_TARGET_SIZE:8}
+    refill-threshold: ${QUEUE_REFILL_THRESHOLD:3}
+
+# --- Rate Limiting ---
+rate-limit:
+  requests-per-minute: ${RATE_LIMIT_RPM:60}
