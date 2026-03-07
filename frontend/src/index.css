@@ -1,12 +1,8 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
+  /* Core palette */
   --bg: #323437;
   --bg-secondary: #2c2e31;
+  --bg-tertiary: #3a3c3f;
   --text: #d1d0c5;
   --text-dim: #646669;
   --correct: #d1d0c5;
@@ -15,21 +11,218 @@
   --caret: #e2b714;
   --accent: #e2b714;
   --accent-dim: #b89a12;
+
+  /* Difficulty-level colors */
+  --diff-beginner: #4ecdc4;
+  --diff-easy: #45b7d1;
+  --diff-medium: #f5a623;
+  --diff-hard: #e74c3c;
+  --diff-expert: #9b59b6;
+
+  /* Gamification colors */
+  --xp-fill: #e2b714;
+  --xp-bg: #1a1b1d;
+  --streak-glow: #e2b714;
+  --combo-color: #f5a623;
+  --toast-bg: #3a3c3f;
+  --toast-border: #e2b714;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Roboto Mono', 'JetBrains Mono', monospace;
-  background-color: var(--bg);
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
 }
 
 #root {
-  width: 100%;
   max-width: 900px;
+  margin: 0 auto;
   padding: 0 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Keyframes ─── */
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(226, 183, 20, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(226, 183, 20, 0.4); }
+}
+
+@keyframes progressFill {
+  from { width: 0; }
+}
+
+@keyframes comboFlash {
+  0% { color: var(--accent); }
+  50% { color: #fff; }
+  100% { color: var(--accent); }
+}
+
+@keyframes drawIn {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes streakPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.3); filter: brightness(1.5); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* ─── Screen transitions ─── */
+
+.screen-enter {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ─── Shared button styles ─── */
+
+.btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.btn:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  padding: 12px 28px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text);
+  padding: 12px 28px;
+}
+
+.btn-secondary:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--text-dim);
+  color: var(--text-dim);
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+}
+
+.btn-ghost:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* ─── Pill buttons (config screen) ─── */
+
+.pill {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-weight: 400;
+}
+
+.pill:hover {
+  filter: brightness(1.15);
+}
+
+.pill--active {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+/* ─── Topic buttons ─── */
+
+.topic-btn {
+  background: var(--bg-secondary);
+  color: var(--text);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 16px 24px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.topic-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.topic-btn__best {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+  display: block;
 }

@@ -1,0 +1,44 @@
+.config {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.config__topic {
+  color: var(--accent);
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+.config__subtitle {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 40px;
+}
+
+.config__section {
+  margin-bottom: 28px;
+}
+
+.config__label {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.config__options {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.config__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.config__actions .btn-primary {
+  padding: 12px 40px;
+}

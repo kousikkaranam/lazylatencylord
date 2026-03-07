@@ -1,0 +1,85 @@
+.typing {
+  padding-top: 40px;
+}
+
+.typing__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.typing__header-left {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.typing__topic {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.typing__sentence-count {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.typing__adapting {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.typing__header-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.typing__end-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.typing__end-btn:hover {
+  color: var(--text);
+}
+
+.typing__gamification {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.typing__pause {
+  text-align: center;
+  padding: 40px;
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+
+.typing__loading {
+  color: var(--accent);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.typing__hint {
+  text-align: center;
+  margin-top: 48px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.typing__hidden-input {
+  position: absolute;
+  opacity: 0;
+  left: -9999px;
+}

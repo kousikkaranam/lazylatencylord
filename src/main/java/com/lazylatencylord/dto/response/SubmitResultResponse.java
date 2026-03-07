@@ -5,5 +5,6 @@ public record SubmitResultResponse(
         String difficultyLabel,
         String nextSentence,
         double wpm,
-        double accuracy
+        double accuracy,
+        double smoothedScore
 ) {}

@@ -1,0 +1,41 @@
+.sentence {
+  font-size: 1.5rem;
+  line-height: 2;
+  letter-spacing: 0.05em;
+  min-height: 120px;
+  cursor: text;
+  user-select: none;
+  position: relative;
+}
+
+.sentence__char {
+  position: relative;
+}
+
+.sentence__caret {
+  position: absolute;
+  left: -1px;
+  top: 2px;
+  width: 2px;
+  height: 1.3em;
+  background: var(--caret);
+  animation: blink 1s step-end infinite;
+}
+
+.sentence__char--correct {
+  color: var(--correct);
+}
+
+.sentence__char--incorrect {
+  color: var(--incorrect);
+  text-decoration: underline;
+  text-decoration-color: var(--incorrect);
+}
+
+.sentence__char--pending {
+  color: var(--text-dim);
+}
+
+.sentence__char--extra {
+  color: var(--extra);
+}

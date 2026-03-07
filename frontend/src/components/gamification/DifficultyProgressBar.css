@@ -1,0 +1,55 @@
+.diff-bar {
+  margin-bottom: 20px;
+}
+
+.diff-bar__label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.diff-bar__badge {
+  font-size: 0.8rem;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all var(--transition-medium);
+}
+
+.diff-bar__score {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.diff-bar__track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    var(--diff-beginner) 0%,
+    var(--diff-beginner) 25%,
+    var(--diff-easy) 25%,
+    var(--diff-easy) 45%,
+    var(--diff-medium) 45%,
+    var(--diff-medium) 65%,
+    var(--diff-hard) 65%,
+    var(--diff-hard) 85%,
+    var(--diff-expert) 85%,
+    var(--diff-expert) 100%
+  );
+  opacity: 0.3;
+}
+
+.diff-bar__marker {
+  position: absolute;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  transition: left 0.8s ease;
+  transform: translateX(-50%);
+}

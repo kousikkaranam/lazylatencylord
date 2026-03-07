@@ -1,0 +1,26 @@
+.streak {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  transition: color var(--transition-fast);
+}
+
+.streak--active {
+  color: var(--accent);
+}
+
+.streak__icon {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.streak__icon--milestone {
+  animation: streakPulse 0.4s ease;
+}
+
+.streak__count {
+  font-weight: 600;
+  min-width: 24px;
+}

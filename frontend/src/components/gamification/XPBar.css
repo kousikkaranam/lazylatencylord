@@ -1,0 +1,38 @@
+.xp-bar {
+  margin-top: 16px;
+}
+
+.xp-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+}
+
+.xp-bar__level {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.xp-bar__xp {
+  color: var(--text-dim);
+}
+
+.xp-bar__track {
+  height: 6px;
+  background: var(--xp-bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.xp-bar__fill {
+  height: 100%;
+  background: var(--xp-fill);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.xp-bar__fill--levelup {
+  animation: glowPulse 0.6s ease;
+}

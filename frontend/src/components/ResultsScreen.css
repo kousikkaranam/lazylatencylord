@@ -1,0 +1,134 @@
+.results {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.results__title {
+  color: var(--accent);
+  font-size: 1.6rem;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+/* Stat cards */
+.results__stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 20px 28px;
+  min-width: 120px;
+  animation: slideUp 0.4s ease both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s; }
+.stat-card:nth-child(3) { animation-delay: 0.2s; }
+.stat-card:nth-child(4) { animation-delay: 0.3s; }
+
+.stat-card__value {
+  font-size: 2.8rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-card__label {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.stat-card__best {
+  font-size: 0.65rem;
+  color: var(--combo-color);
+  font-weight: 600;
+  margin-top: 4px;
+  animation: pulse 0.6s ease;
+}
+
+/* Gamification summary */
+.results__gamification {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.results__gamification-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.results__gamification-value {
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Sentence history */
+.results__history {
+  max-width: 500px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.results__history-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bg-secondary);
+  font-size: 0.85rem;
+  animation: fadeIn 0.3s ease both;
+}
+
+.results__history-row:nth-child(n) {
+  animation-delay: calc(var(--i, 0) * 0.05s);
+}
+
+.results__history-num {
+  color: var(--text-dim);
+}
+
+.results__history-time {
+  color: var(--text-dim);
+}
+
+/* Actions */
+.results__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Achievements earned */
+.results__achievements {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.results__achievement {
+  background: var(--bg-secondary);
+  border: 1px solid var(--toast-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  color: var(--accent);
+  animation: fadeIn 0.3s ease both;
+}
+
+.results__achievement-icon {
+  margin-right: 4px;
+}

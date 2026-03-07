@@ -1,0 +1,26 @@
+.live-stats {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+  font-size: 1.4rem;
+  align-items: baseline;
+}
+
+.live-stats__value {
+  color: var(--accent);
+}
+
+.live-stats__value--danger {
+  color: var(--incorrect);
+}
+
+.live-stats__unit {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  margin-left: 4px;
+}
+
+.live-stats__last {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}

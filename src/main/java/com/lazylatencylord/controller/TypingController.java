@@ -74,7 +74,7 @@ public class TypingController {
 
         return new SubmitResultResponse(
                 result.difficulty(), result.label(), nextSentence,
-                request.wpm(), request.accuracy());
+                request.wpm(), request.accuracy(), result.smoothedScore());
     }
 
     @PostMapping("/end/{sessionId}")
